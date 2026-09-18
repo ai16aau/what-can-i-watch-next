@@ -99,7 +99,9 @@ main{display:block}
 .deck{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;
   -webkit-mask-image:radial-gradient(120% 95% at 55% 45%,#000 52%,transparent 92%);
           mask-image:radial-gradient(120% 95% at 55% 45%,#000 52%,transparent 92%)}
-.deck div{aspect-ratio:2/3;border-radius:9px;box-shadow:0 10px 30px -14px rgba(0,0,0,.9)}
+.deck div{aspect-ratio:2/3;border-radius:9px;box-shadow:0 10px 30px -14px rgba(0,0,0,.9);position:relative;overflow:hidden}
+.deck .logolayer{background-size:76% auto;background-position:center}
+.deck .logolayer.plate{inset:6px;border-radius:5px}
 .deck div:nth-child(3n+1){transform:translateY(-16px)}
 .deck div:nth-child(3n){transform:translateY(16px)}
 @media (max-width:900px){.deck{grid-template-columns:repeat(6,1fr);gap:8px}
