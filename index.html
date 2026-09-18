@@ -171,6 +171,7 @@ main{display:block}
 .lookup:hover{color:var(--gold);border-color:var(--gold)}
 .lookup:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .wikicredit{font-size:.72rem;color:var(--ink-faint)}
+.hl{color:var(--gold);font-weight:700}
 .cmeta{font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--ink-faint);letter-spacing:.04em}
 .mark{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:rgba(11,12,16,.55);display:grid;place-items:center;font-size:12px;color:transparent;z-index:2}
 .card[aria-pressed="true"] .mark{background:var(--gold);border-color:var(--gold);color:#17120A}
@@ -274,7 +275,7 @@ input[type=email]{width:100%;background:var(--surface-2);color:var(--ink);border
     <div class="step3"><span class="n">02</span><b>Say what worked</b><span>The writing, the acting, the editing, the tone. Tick a whole category, or go deeper. Optional.</span></div>
     <div class="step3"><span class="n">03</span><b>Name your mood</b><span>What you want right now, which is not the same as what you generally like.</span></div>
   </div>
-  <p class="tiny">Everything happens in your browser. Nothing is uploaded, nothing is stored anywhere but on your own device.</p>
+  <p class="tiny">Everything happens in your browser. Nothing is stored anywhere but on your own device.</p>
 </div></section>
 
 <!-- 1 UPLOAD -->
@@ -282,7 +283,7 @@ input[type=email]{width:100%;background:var(--surface-2);color:var(--ink);border
   <div class="head">
     <p class="eyebrow">Optional</p>
     <h2>Have a watch history to hand?</h2>
-    <p class="lede">This step is optional, so click skip if you would rather not upload anything. If you do have one to hand, Netflix lets you download yours as a CSV straight from the website. Other services vary. Drop one in and everything on it comes off the suggestion list. It never leaves your browser.</p>
+    <p class="lede">This step is optional, so <b class="hl">click skip</b> if you would rather not upload anything. If you do have one to hand, Netflix lets you download yours as a CSV straight from the website. Other services vary. Drop one in and everything on it comes off the suggestion list. It never leaves your browser.</p>
   </div>
   <label class="drop" id="drop">
     <input type="file" id="file" accept=".csv,text/csv" multiple>
@@ -381,7 +382,6 @@ input[type=email]{width:100%;background:var(--surface-2);color:var(--ink);border
 
 <footer><div class="wrap">
   <span>A prototype exploring detailed ratings for streaming recommendations.</span>
-  <span class="mono" id="catcount"></span>
   <span class="wikicredit">Title logos and stills from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, each individually licensed and credited below. Live titles from <a href="https://www.wikidata.org" target="_blank" rel="noopener">Wikidata</a> (CC0). Synopses adapted from <a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</span>
   <details class="credits" id="credits" hidden><summary>Artwork credits</summary><div id="creditlist"></div></details>
 </div></footer>
@@ -2192,7 +2192,7 @@ function renderPick(){
   });
   $("#more").hidden = show.length>=list.length;
   $("#more").onclick=()=>{S.page++;renderPick();};
-  $("#shown").textContent=`${show.length} of ${list.length} shown · ${CAT.length} in the catalogue`;
+  $("#shown").textContent=`Showing ${show.length} of ${list.length}`;
 }
 $("#q").addEventListener("input",e=>{S.q=e.target.value;S.page=1;renderPick();});
 
@@ -2423,7 +2423,6 @@ function renderResults(){
   $("#taste-note").textContent="Ranked on everything you chose. You may have caught some of these already.";
   fill("#taste-recs",rest,pr,false,null);
 
-  $("#catcount").textContent=`${CAT.length} titles in the catalogue`;
   $("#savednote").textContent="Your answers are saved in this browser, so you can come back, change your mood and get a fresh list without starting over.";
   buildListText();
   const wantsRecent = !S.eras.size || S.eras.has("e5") || S.eras.has("e4");
@@ -2594,7 +2593,6 @@ $("#again").addEventListener("click",restart);
     let g=0; while(picks.length<9&&g<CAT.length){ if(picks.indexOf(g)<0)picks.push(g); g+=37; }
     picks.slice(0,9).forEach(id=>{ const d=el("div"); d.setAttribute("style",art(CAT[id])); paint(d,CAT[id],"tall"); deck.appendChild(d); });
   }
-  $("#catcount").textContent=`${CAT.length} titles in the catalogue`;
   segs(); bar();
 })();
 })();
