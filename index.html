@@ -24,7 +24,7 @@ img{max-width:100%}
   --rule-soft:#252422;
   --ink:#F2F0EA;
   --ink-2:#B4B0A7;
-  --ink-3:#7F7B73;
+  --ink-3:#8C887F;
   --on-ink:#0D0D0C;
   --sel:#F0DA5E;
   --bars:linear-gradient(90deg,#D8D4CB 0 14.28%,#F0DA5E 0 28.57%,#62D5C3 0 42.85%,#7FD98F 0 57.14%,#F592C4 0 71.42%,#F27D6B 0 85.71%,#7E8CF2 0 100%);
@@ -84,6 +84,8 @@ a{color:inherit}
 }
 .btn:hover{background:#FFFFFF}
 .btn:disabled{opacity:.3;cursor:not-allowed}
+#next.fwd::after,#sendlist::after{content:" \2192";font-weight:800}
+#next:not(:disabled):hover,.btn:not(.ghost):not(.link):hover{box-shadow:0 0 0 3px var(--sel)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
 .btn.ghost:hover{border-color:var(--ink)}
 .btn.link{background:none;border:0;color:var(--ink-2);text-decoration:underline;text-underline-offset:4px;padding:10px 2px;font-weight:500}
@@ -135,7 +137,24 @@ a{color:inherit}
 .f:hover{color:var(--ink)}
 .f[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--sel);font-weight:700}
 
-/* checkbox-style toggles (eras, shapes) */
+/* year range */
+.yr{display:grid;gap:6px;max-width:760px;margin-top:6px}
+.yrhist{display:flex;align-items:flex-end;gap:2px;height:56px;padding-inline:11px}
+.yrhist i{flex:1;background:var(--rule);min-height:2px;border-radius:1px 1px 0 0}
+.yrhist i.in{background:var(--sel)}
+.yrslider{position:relative;height:34px}
+.yrtrack{position:absolute;left:11px;right:11px;top:15px;height:4px;background:var(--rule)}
+.yrtrack i{position:absolute;top:-1px;bottom:-1px;background:var(--sel)}
+.yrslider input{position:absolute;left:0;right:0;top:0;width:100%;height:34px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.yrslider input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;border-radius:50%;background:var(--ink);border:3px solid var(--ground);box-shadow:0 0 0 2px var(--sel);cursor:grab}
+.yrslider input::-moz-range-thumb{pointer-events:auto;width:18px;height:18px;border-radius:50%;background:var(--ink);border:3px solid var(--ground);box-shadow:0 0 0 2px var(--sel);cursor:grab}
+.yrslider input::-webkit-slider-runnable-track{background:none}
+.yrslider input::-moz-range-track{background:none}
+.yrslider input:focus-visible{outline:none}
+.yrslider input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--sel),0 0 0 5px var(--ink)}
+.yrread{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;color:var(--ink-2)}
+.yrread b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+/* checkbox-style toggles (shapes) */
 .opts{display:grid;gap:0;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));border-top:1px solid var(--rule-soft)}
 .opts .f{display:flex;align-items:center;gap:12px;text-align:left;font-size:.98rem;color:var(--ink-2);padding:12px 0;border-bottom:1px solid var(--rule-soft);margin-right:24px}
 .opts .f::before,.cat::before,.d::before,.mood::before{content:"";flex:none;width:16px;height:16px;border:1.5px solid var(--ink-3);border-radius:1px;
@@ -233,7 +252,13 @@ a{color:inherit}
 .bars-title{font-size:.84rem;font-weight:700}
 .brow{display:grid;grid-template-columns:150px 1fr 40px;gap:14px;align-items:center;font-size:.9rem;color:var(--ink-2)}
 .btrack{height:10px;background:var(--rule-soft)}
-.btrack i{display:block;height:100%;background:var(--c,var(--ink))}
+.btrack i{display:block;height:100%;background-color:var(--c,var(--ink))}
+/* each category also carries its own texture, so the bars never rely on colour alone */
+.btrack i.p1{background-image:repeating-linear-gradient(45deg,rgba(13,13,12,.45) 0 2px,transparent 2px 7px)}
+.btrack i.p2{background-image:radial-gradient(rgba(13,13,12,.5) 1.2px,transparent 1.6px);background-size:6px 6px}
+.btrack i.p3{background-image:repeating-linear-gradient(90deg,rgba(13,13,12,.45) 0 2px,transparent 2px 6px)}
+.btrack i.p4{background-image:repeating-linear-gradient(-45deg,rgba(13,13,12,.45) 0 2px,transparent 2px 7px)}
+.btrack i.p5{background-image:repeating-linear-gradient(0deg,rgba(13,13,12,.45) 0 2px,transparent 2px 5px)}
 .bval{text-align:right;color:var(--ink-3);font-size:.82rem;font-variant-numeric:tabular-nums}
 @media (max-width:480px){.brow{grid-template-columns:110px 1fr 36px}}
 
@@ -260,7 +285,7 @@ a{color:inherit}
 .recacts{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
 .seenit{appearance:none;cursor:pointer;font:inherit;font-size:.84rem;font-weight:600;background:none;color:var(--ink);border:1px solid var(--rule);border-radius:2px;padding:5px 10px}
 .seenit:hover{border-color:var(--c,var(--ink));color:var(--c,var(--ink))}
-.lookup{font-size:.84rem;color:var(--ink-2);justify-self:start;text-underline-offset:3px}
+.lookup{text-decoration:underline;font-size:.84rem;color:var(--ink-2);justify-self:start;text-underline-offset:3px}
 .lookup:hover{color:var(--ink)}
 .empty{border-top:1px solid var(--rule);padding-block:18px;color:var(--ink-2);font-size:.95rem}
 
@@ -342,8 +367,17 @@ input[type=email]{width:100%;background:var(--ground);color:var(--ink);border:1p
   <div class="moods" id="moodgrid"></div>
   <div class="subsec">
     <h3>When was it made?</h3>
-    <p class="small">Leave these alone for anything, any era.</p>
-    <div class="opts" id="eragrid"></div>
+    <p class="small">Leave it on Any time, tap a shortcut, or drag either end of the range.</p>
+    <div class="chipbar" id="eragrid" role="group" aria-label="Year shortcuts"></div>
+    <div class="yr">
+      <div class="yrhist" id="yrhist" aria-hidden="true"></div>
+      <div class="yrslider" id="yrslider">
+        <div class="yrtrack"><i id="yrfill"></i></div>
+        <input type="range" id="yrlo" aria-label="Earliest year">
+        <input type="range" id="yrhi" aria-label="Latest year">
+      </div>
+      <div class="yrread"><span>From <b id="yrlotxt"></b></span><span id="yrcount" class="note"></span><span>To <b id="yrhitxt"></b></span></div>
+    </div>
   </div>
   <div class="subsec">
     <h3>Anything about how you want to watch it?</h3>
@@ -1983,7 +2017,7 @@ const LOOKUP={}; CAT.forEach(c=>{ LOOKUP[NORM(c.title)]=c.id; });
 function BYID(id){ id=+id; if(id>=50000) return S.custom.find(c=>c.id===id); if(id>=20000) return WIDE[id-20000]; return CAT[id]; }
 
 /* ---------- state ---------- */
-const S={custom:[],step:0,liked:new Set(),ratings:{},moods:new Set(),shapes:new Set(),eras:new Set(),
+const S={custom:[],step:0,liked:new Set(),ratings:{},moods:new Set(),shapes:new Set(),yr:null,
          seen:new Set(),seenCount:0,q:"",type:"all",genre:"all",page:1,openCat:{}};
 const STEPS=["Start","Watch history","What you enjoyed","What worked","Your mood","Your list"];
 const $=s=>document.querySelector(s);
@@ -1998,8 +2032,18 @@ function art(c){
    individually when the catalogue was built; anything non-free was dropped. Titles
    with no free artwork keep their title card. */
 const usedCredits=new Map();
+/* Artwork for the wider catalogue lives in a second file (wide-art.js), fetched once the
+   page is up so the first load stays quick. Anything already on screen is filled in when it lands. */
+const artFor=c=>ART[c.title]||(window.WART&&window.WART[c.title])||null;
+function loadWideArt(){
+  if(window.WART||loadWideArt.busy) return; loadWideArt.busy=true;
+  const sc=document.createElement("script"); sc.src="wide-art.js"; sc.async=true;
+  sc.onload=()=>{ document.querySelectorAll(".art,.rart").forEach(n=>{ if(n.__c&&!n.classList.contains("hasart")) paint(n,n.__c,n.__m); }); };
+  document.body.appendChild(sc);
+}
+window.addEventListener("load",()=>setTimeout(loadWideArt,600));
 function credit(c){
-  const a=ART[c.title]; if(!a||usedCredits.has(c.title)) return;
+  const a=artFor(c); if(!a||usedCredits.has(c.title)) return;
   usedCredits.set(c.title,a);
   const box=document.getElementById("creditlist"); if(!box) return;
   const line=document.createElement("div");
@@ -2017,7 +2061,9 @@ function credit(c){
    built, so dark transparent wordmarks are rendered as clean white and everything
    else is left exactly as published. */
 function paint(node,c,mode){
-  const a=ART[c.title]; if(!a||!a.url) return;
+  node.__c=c; node.__m=mode;
+  const a=artFor(c); if(!a||!a.url) return;
+  if(node.classList.contains("hasart")) return;
   const img=new Image();
   img.onload=()=>{
     const layer=document.createElement("div");
@@ -2040,7 +2086,7 @@ const meta=c=>`${c.year?c.year+" · ":""}${c.type==="film"?"Film":"Series"} · $
 const KEY="wsiw.v1";
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify({custom:S.custom,liked:[...S.liked],ratings:S.ratings,
-    moods:[...S.moods],shapes:[...S.shapes],eras:[...S.eras],seen:[...S.seen],seenCount:S.seenCount,step:S.step,at:Date.now()}));}catch(e){}
+    moods:[...S.moods],shapes:[...S.shapes],yr:S.yr,seen:[...S.seen],seenCount:S.seenCount,step:S.step,at:Date.now()}));}catch(e){}
 }
 function load(){ try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
 function clearSave(){ try{localStorage.removeItem(KEY);}catch(e){} }
@@ -2067,6 +2113,7 @@ function bar(){
   b.hidden = S.step===0;
   const labels=["Start","Continue","Continue","Continue","See my list","Start again"];
   n.textContent=labels[S.step];
+  n.classList.toggle("fwd",S.step<5);
   const sk=$("#skip");
   sk.hidden = S.step!==1;
   if(S.step===1){ n.disabled=false; n.textContent="Continue"; }
@@ -2077,7 +2124,7 @@ function bar(){
     S.liked.size?`<b>${S.liked.size}</b> picked${S.liked.size<5?" · a few more makes it sharper":""}`:"Pick at least one to carry on",
     (()=>{const r=Object.values(S.ratings).filter(a=>a&&a.length).length;
           return r?`<b>${r}</b> of ${S.liked.size} described`:"All optional, skip if you like";})(),
-    (()=>{const m=S.moods.size?`<b>${S.moods.size}</b> mood${S.moods.size===1?"":"s"}`:"No mood";const e=S.eras.size?`, <b>${S.eras.size}</b> era${S.eras.size===1?"":"s"}`:", any era";return m+e;})(),
+    (()=>{const m=S.moods.size?`<b>${S.moods.size}</b> mood${S.moods.size===1?"":"s"}`:"No mood";const e=yrAny()?", any era":`, <b>${yrLo()}</b> to <b>${yrHi()}</b>`;return m+e;})(),
     ""];
   info.innerHTML=notes[S.step];
 }
@@ -2149,7 +2196,8 @@ const artObserver = ("IntersectionObserver" in window) ? new IntersectionObserve
   es.forEach(e=>{ if(e.isIntersecting){ o.unobserve(e.target); paint(e.target,e.target.__c,e.target.__m); } });
 },{rootMargin:"300px"}) : null;
 function lazyArt(node,c,mode){
-  if(!ART[c.title]) return;
+  node.__c=c; node.__m=mode;
+  if(!artFor(c)) return;
   node.__c=c; node.__m=mode;
   if(artObserver) artObserver.observe(node); else paint(node,c,mode);
 }
@@ -2366,14 +2414,7 @@ function renderMood(){
       b.setAttribute("aria-pressed",String(S.moods.has(m.id))); bar(); save(); });
     g.appendChild(b);
   });
-  const eg=$("#eragrid"); eg.innerHTML="";
-  ERAS.forEach(e=>{
-    const b=el("button","f",e.t); b.type="button";
-    b.setAttribute("aria-pressed",String(S.eras.has(e.id)));
-    b.addEventListener("click",()=>{ S.eras.has(e.id)?S.eras.delete(e.id):S.eras.add(e.id);
-      b.setAttribute("aria-pressed",String(S.eras.has(e.id))); bar(); save(); });
-    eg.appendChild(b);
-  });
+  renderYears();
   const sg=$("#shapegrid"); sg.innerHTML="";
   SHAPES.forEach(([id,l])=>{
     const b=el("button","f",l); b.type="button";
@@ -2423,13 +2464,50 @@ function score(c,pr){
   return {total,cat,genre,shape,raw};
 }
 function inEra(c){
-  if(!S.eras.size) return true;
-  for(const id of S.eras){
-    const e=ERAS.find(x=>x.id===id);
-    if(e && c.year>=e.lo && c.year<=e.hi) return true;
-  }
-  return false;
+  if(yrAny()||!c.year) return true;
+  return (yrLo()===YMIN||c.year>=yrLo()) && c.year<=yrHi();
 }
+/* ---------- year range ---------- */
+const YMIN=1950, YMAX=Math.max(2026,new Date().getFullYear());
+const yrLo=()=>S.yr?S.yr[0]:YMIN, yrHi=()=>S.yr?S.yr[1]:YMAX, yrAny=()=>yrLo()<=YMIN&&yrHi()>=YMAX;
+const YPRESETS=[["Any time",YMIN,YMAX],["Last 5 years",YMAX-4,YMAX],["2015 onwards",2015,YMAX],["2010 onwards",2010,YMAX],
+  ["2000 onwards",2000,YMAX],["The 2000s",2000,2009],["The 1990s",1990,1999],["Before 1990",YMIN,1989]];
+function renderYears(){
+  const lo=$("#yrlo"), hi=$("#yrhi");
+  [lo,hi].forEach(i=>{i.min=YMIN;i.max=YMAX;i.step=1;});
+  lo.value=yrLo(); hi.value=yrHi();
+  const eg=$("#eragrid"); eg.innerHTML="";
+  YPRESETS.forEach(([t,a,b])=>{
+    const bt=el("button","f",t); bt.type="button";
+    bt.addEventListener("click",()=>{ S.yr=(a<=YMIN&&b>=YMAX)?null:[a,b]; renderYears(); bar(); save(); });
+    eg.appendChild(bt);
+  });
+  const h=$("#yrhist");
+  if(!h.childElementCount){
+    const counts={}; POOL().forEach(c=>{ const y=Math.max(YMIN,Math.min(YMAX,c.year)); const k=Math.floor((y-YMIN)/2); counts[k]=(counts[k]||0)+1; });
+    const n=Math.floor((YMAX-YMIN)/2)+1, mx=Math.max(...Object.values(counts));
+    for(let k=0;k<n;k++){ const i=el("i"); i.dataset.y=YMIN+k*2; i.style.height=Math.max(3,Math.round(Math.sqrt((counts[k]||0)/mx)*100))+"%"; h.appendChild(i); }
+  }
+  paintYears();
+}
+function paintYears(){
+  const a=yrLo(), b=yrHi(), span=YMAX-YMIN;
+  $("#yrfill").style.left=((a-YMIN)/span*100)+"%"; $("#yrfill").style.right=((YMAX-b)/span*100)+"%";
+  $("#yrlotxt").textContent=a<=YMIN?`${YMIN} or earlier`:a; $("#yrhitxt").textContent=b;
+  $("#yrlo").setAttribute("aria-valuetext",a<=YMIN?`${YMIN} or earlier`:String(a));
+  document.querySelectorAll("#yrhist i").forEach(i=>{ const y=+i.dataset.y; i.classList.toggle("in",(a<=YMIN||y+1>=a)&&y<=b); });
+  const n=POOL().filter(c=>inEra(c)).length;
+  $("#yrcount").textContent=yrAny()?"Any year":`${n.toLocaleString()} titles in range`;
+  document.querySelectorAll("#eragrid .f").forEach((bt,i)=>{ const [,x,y]=YPRESETS[i]; bt.setAttribute("aria-pressed",String(x===a&&y===b)); });
+}
+function onYr(which){
+  let a=+$("#yrlo").value, b=+$("#yrhi").value;
+  if(a>b){ if(which==="lo") a=b; else b=a; $("#yrlo").value=a; $("#yrhi").value=b; }
+  S.yr=(a<=YMIN&&b>=YMAX)?null:[a,b]; paintYears(); bar(); save();
+}
+$("#yrlo").addEventListener("input",()=>onYr("lo"));
+$("#yrhi").addEventListener("input",()=>onYr("hi"));
+
 function moodFit(c){
   if(!S.moods.size) return 0;
   let h=0; S.moods.forEach(m=>{ if(c.moods.includes(m)) h++; });
@@ -2498,7 +2576,7 @@ function renderResults(){
   ranked.slice(0,6).forEach(([k,v])=>{
     const r=el("div","brow");
     r.appendChild(el("div",null,CATLABEL[k]));
-    const t=el("div","btrack"); const i=el("i"); i.style.setProperty("--c",CATCOL[k]); i.style.width=Math.round(v/maxS*100)+"%"; t.appendChild(i);
+    const t=el("div","btrack"); const i=el("i","p"+(bars.childElementCount%6)); i.style.setProperty("--c",CATCOL[k]); i.style.width=Math.round(v/maxS*100)+"%"; t.appendChild(i);
     r.appendChild(t); r.appendChild(el("div","bval",Math.round(v/maxS*100)+"%"));
     bars.appendChild(r);
   });
@@ -2555,7 +2633,7 @@ function renderResults(){
 
   $("#savednote").textContent="Your answers are saved in this browser, so you can come back, change your mood and get a fresh list without starting over.";
   buildListText();
-  const wantsRecent = !S.eras.size || S.eras.has("e5") || S.eras.has("e4");
+  const wantsRecent = yrHi()>=2016;
   if(LIVE && wantsRecent) liveTopUp(pr); else $("#liveblock").hidden=true;
 }
 function fill(sel,items,pr,mood,collect){
@@ -2700,7 +2778,7 @@ $("#copylist").addEventListener("click",e=>{ copy(LISTTEXT); e.target.textConten
 
 /* ---------- restart / resume / boot ---------- */
 function restart(){
-  S.custom=[]; S.liked=new Set(); S.ratings={}; S.moods=new Set(); S.shapes=new Set(); S.eras=new Set();
+  S.custom=[]; S.liked=new Set(); S.ratings={}; S.moods=new Set(); S.shapes=new Set(); S.yr=null;
   S.seen=new Set(); S.seenCount=0; S.q=""; S.type="all"; S.genre="all"; S.page=1;
   $("#q").value=""; $("#dropstatus").className="pill"; $("#dropstatus").textContent="Nothing loaded";
   clearSave(); go(0);
@@ -2713,7 +2791,7 @@ $("#again").addEventListener("click",restart);
     $("#resume-detail").textContent=`${saved.liked.length} title${saved.liked.length===1?"":"s"} you liked ${saved.liked.length===1?"was":"were"} saved${saved.seen&&saved.seen.length?`, along with ${saved.seen.length} from your watch history`:""}.`;
     $("#resume-go").addEventListener("click",()=>{
       S.custom=saved.custom||[]; S.liked=new Set(saved.liked); S.ratings=saved.ratings||{};
-      S.moods=new Set(saved.moods||[]); S.shapes=new Set(saved.shapes||[]); S.eras=new Set(saved.eras||[]);
+      S.moods=new Set(saved.moods||[]); S.shapes=new Set(saved.shapes||[]); S.yr=Array.isArray(saved.yr)?saved.yr:null;
       S.seen=new Set(saved.seen||[]); S.seenCount=saved.seenCount||0;
       go(Math.min(4,Math.max(2,saved.step||2)));
     });
